@@ -28,8 +28,10 @@ protected:
         }
     }
 
-    static uct_md_h open_first_md() {
+    static uct_md_h open_first_md()
+    {
         uct_component_attr_t attr;
+
         attr.field_mask = UCT_COMPONENT_ATTR_FIELD_MD_RESOURCE_COUNT;
         if (uct_component_query(&uct_ze_ipc_component, &attr) != UCS_OK) {
             return NULL;
@@ -40,15 +42,15 @@ protected:
             return NULL;
         }
 
-        uct_md_resource_desc_t *res = (uct_md_resource_desc_t *)
-                ucs_calloc(count, sizeof(uct_md_resource_desc_t),
-                           "ze_ipc_md_resources");
+        uct_md_resource_desc_t *res = (uct_md_resource_desc_t*)ucs_calloc(
+                count, sizeof(uct_md_resource_desc_t), "ze_ipc_md_resources");
         if (res == NULL) {
             return NULL;
         }
 
         attr.field_mask   = UCT_COMPONENT_ATTR_FIELD_MD_RESOURCES;
         attr.md_resources = res;
+
         ucs_status_t status = uct_component_query(&uct_ze_ipc_component, &attr);
         if (status != UCS_OK) {
             ucs_free(res);
@@ -119,9 +121,11 @@ UCS_TEST_F(test_ze_ipc_cache, stale_address_is_remapped) {
     }
     auto *ze_md = ucs_derived_of(md, uct_ze_ipc_md_t);
 
-    const size_t size = 4096;
-    void *ptr_a = NULL, *ptr_b = NULL;
+    const size_t size                   = 4096;
+    void *ptr_a                         = NULL;
+    void *ptr_b                         = NULL;
     ze_device_mem_alloc_desc_t dev_desc = {};
+
     dev_desc.stype = ZE_STRUCTURE_TYPE_DEVICE_MEM_ALLOC_DESC;
 
     ASSERT_EQ(ZE_RESULT_SUCCESS,
@@ -142,8 +146,10 @@ UCS_TEST_F(test_ze_ipc_cache, stale_address_is_remapped) {
     /* simulate allocation B being reported at the VA allocation A used */
     key_b.address = key_a.address;
 
-    void *mapped_a = NULL, *mapped_b = NULL;
-    int dup_fd_a = -1, dup_fd_b = -1;
+    void *mapped_a = NULL;
+    void *mapped_b = NULL;
+    int dup_fd_a   = -1;
+    int dup_fd_b   = -1;
 
     ASSERT_UCS_OK(uct_ze_ipc_map_memhandle(&key_a, ze_md->ze_context,
                                            ze_md->ze_device, &mapped_a,
@@ -193,6 +199,7 @@ UCS_TEST_F(test_ze_ipc_cache, purge_by_context_then_remap) {
     const size_t size                   = 4096;
     void *ptr                           = NULL;
     ze_device_mem_alloc_desc_t dev_desc = {};
+
     dev_desc.stype = ZE_STRUCTURE_TYPE_DEVICE_MEM_ALLOC_DESC;
 
     ASSERT_EQ(ZE_RESULT_SUCCESS,

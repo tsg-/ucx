@@ -207,11 +207,12 @@ uct_ze_ipc_post_copy(uct_ep_h tl_ep, uint64_t remote_addr, const uct_iov_t *iov,
     }
 
     if (ucs_unlikely((remote_addr < key->address) ||
-                      ((offset = remote_addr - key->address) > key->length) ||
-                      (iov[0].length > (key->length - offset)))) {
+                     ((offset = remote_addr - key->address) > key->length) ||
+                     (iov[0].length > (key->length - offset)))) {
         ucs_error("ze_ipc_ep: remote_addr 0x%" PRIx64 " length %zu is out of "
-                  "rkey range [0x%lx..0x%lx)", remote_addr, iov[0].length,
-                  key->address, key->address + key->length);
+                  "rkey range [0x%lx..0x%lx)",
+                  remote_addr, iov[0].length, key->address,
+                  key->address + key->length);
         return UCS_ERR_INVALID_PARAM;
     }
 

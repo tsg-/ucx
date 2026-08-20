@@ -19,7 +19,8 @@ extern "C" {
  */
 class test_ze_ipc_rma : public uct_test {
 protected:
-    void init() {
+    void init()
+    {
         uct_test::init();
 
         m_receiver = uct_test::create_entity(0);
@@ -43,12 +44,13 @@ UCS_TEST_P(test_ze_ipc_rma, put_zcopy)
 {
     size_t length = 4096;
 
-    mapped_buffer sendbuf(length, SEED1, *m_sender, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
-    mapped_buffer recvbuf(length, SEED2, *m_receiver, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer sendbuf(length, SEED1, *m_sender, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer recvbuf(length, SEED2, *m_receiver, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
 
-    ASSERT_UCS_OK_OR_INPROGRESS(uct_ep_put_zcopy(m_sender->ep(0),
-                                                 sendbuf.iov(), 1,
-                                                 recvbuf.addr(),
+    ASSERT_UCS_OK_OR_INPROGRESS(uct_ep_put_zcopy(m_sender->ep(0), sendbuf.iov(),
+                                                 1, recvbuf.addr(),
                                                  recvbuf.rkey(), NULL));
     m_sender->flush();
     recvbuf.pattern_check(SEED1);
@@ -58,12 +60,13 @@ UCS_TEST_P(test_ze_ipc_rma, get_zcopy)
 {
     size_t length = 4096;
 
-    mapped_buffer sendbuf(length, SEED1, *m_receiver, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
-    mapped_buffer recvbuf(length, SEED2, *m_sender, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer sendbuf(length, SEED1, *m_receiver, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer recvbuf(length, SEED2, *m_sender, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
 
-    ASSERT_UCS_OK_OR_INPROGRESS(uct_ep_get_zcopy(m_sender->ep(0),
-                                                 recvbuf.iov(), 1,
-                                                 sendbuf.addr(),
+    ASSERT_UCS_OK_OR_INPROGRESS(uct_ep_get_zcopy(m_sender->ep(0), recvbuf.iov(),
+                                                 1, sendbuf.addr(),
                                                  sendbuf.rkey(), NULL));
     m_sender->flush();
     recvbuf.pattern_check(SEED1);
@@ -72,8 +75,10 @@ UCS_TEST_P(test_ze_ipc_rma, get_zcopy)
 UCS_TEST_P(test_ze_ipc_rma, put_zcopy_rejects_multi_iov)
 {
     size_t length = 64;
-    mapped_buffer sendbuf(length, SEED1, *m_sender, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
-    mapped_buffer recvbuf(length, SEED2, *m_receiver, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer sendbuf(length, SEED1, *m_sender, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer recvbuf(length, SEED2, *m_receiver, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
     uct_iov_t iov[2];
 
     iov[0] = *sendbuf.iov();
@@ -91,8 +96,10 @@ UCS_TEST_P(test_ze_ipc_rma, put_zcopy_rejects_multi_iov)
 UCS_TEST_P(test_ze_ipc_rma, put_zcopy_rejects_out_of_range_rkey)
 {
     size_t length = 64;
-    mapped_buffer sendbuf(length, SEED1, *m_sender, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
-    mapped_buffer recvbuf(length, SEED2, *m_receiver, 0, UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer sendbuf(length, SEED1, *m_sender, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
+    mapped_buffer recvbuf(length, SEED2, *m_receiver, 0,
+                          UCS_MEMORY_TYPE_ZE_DEVICE);
 
     ucs_status_t status;
     {

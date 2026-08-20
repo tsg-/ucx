@@ -276,7 +276,8 @@ static unsigned uct_ze_ipc_iface_progress(uct_iface_h tl_iface)
             if (event_desc->comp != NULL) {
                 uct_invoke_completion(event_desc->comp,
                                       (ret == ZE_RESULT_SUCCESS) ?
-                                              UCS_OK : UCS_ERR_IO_ERROR);
+                                              UCS_OK :
+                                              UCS_ERR_IO_ERROR);
             }
 
             /* Free event back to shared pool or destroy private pool */
@@ -343,8 +344,10 @@ static uct_iface_ops_t uct_ze_ipc_iface_ops = {
     .iface_progress_enable    = uct_base_iface_progress_enable,
     .iface_progress_disable   = uct_base_iface_progress_disable,
     .iface_progress           = uct_ze_ipc_iface_progress,
-    .iface_event_fd_get       = (uct_iface_event_fd_get_func_t)ucs_empty_function_return_unsupported,
-    .iface_event_arm          = (uct_iface_event_arm_func_t)ucs_empty_function_return_unsupported,
+    .iface_event_fd_get       = (uct_iface_event_fd_get_func_t)
+            ucs_empty_function_return_unsupported,
+    .iface_event_arm          = (uct_iface_event_arm_func_t)
+            ucs_empty_function_return_unsupported,
     .iface_close              = UCS_CLASS_DELETE_FUNC_NAME(uct_ze_ipc_iface_t),
     .iface_query              = uct_ze_ipc_iface_query,
     .iface_get_device_address = uct_ze_ipc_iface_get_device_address,
@@ -682,8 +685,7 @@ static UCS_CLASS_CLEANUP_FUNC(uct_ze_ipc_iface_t)
             if (event_desc->mapped_addr != NULL) {
                 uct_ze_ipc_unmap_memhandle(event_desc->pid, event_desc->address,
                                            event_desc->mapped_addr,
-                                           self->ze_context,
-                                           event_desc->dup_fd,
+                                           self->ze_context, event_desc->dup_fd,
                                            self->config.enable_cache);
             }
             if (event_desc->event != NULL) {
