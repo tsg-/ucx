@@ -105,4 +105,3 @@ ucs_status_t uct_ze_ipc_unmap_memhandle(pid_t pid, uintptr_t address,
 void uct_ze_ipc_purge_cache_by_context(ze_context_handle_t ze_context);
 
 #endif /* UCT_ZE_IPC_CACHE_H_ */
-

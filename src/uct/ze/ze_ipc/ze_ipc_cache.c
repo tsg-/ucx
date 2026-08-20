@@ -482,5 +482,3 @@ UCS_STATIC_CLEANUP {
     kh_destroy_inplace(ze_ipc_rem_cache, &uct_ze_ipc_remote_cache.hash);
     ucs_recursive_spinlock_destroy(&uct_ze_ipc_remote_cache.lock);
 }
-
-

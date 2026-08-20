@@ -57,6 +57,3 @@ UCS_TEST_F(test_ze_ipc_cache, multiple_instances) {
         uct_ze_ipc_destroy_cache(caches[i]);
     }
 }
-
-
-
