@@ -140,10 +140,11 @@ static ucs_status_t uct_ze_ipc_pack_key(uct_ze_ipc_md_t *md, void *address,
         return status;
     }
 
-    key->pid     = getpid();
-    key->address = (uintptr_t)base_address;
-    key->length  = alloc_size;
-    key->dev_num = dev_ordinal;
+    key->pid      = getpid();
+    key->address  = (uintptr_t)base_address;
+    key->length   = alloc_size;
+    key->dev_num  = dev_ordinal;
+    key->alloc_id = props.id;
 
     ucs_trace("packed IPC handle for %p base=%p len=%zu dev=%d pid=%d", address,
               base_address, alloc_size, dev_ordinal, key->pid);

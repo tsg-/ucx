@@ -109,7 +109,7 @@ UCS_TEST_F(test_ze_ipc_cache, multiple_instances) {
 /*
  * Simulates a peer freeing an allocation and a later, different allocation
  * reusing the same VA: two distinct real IPC keys are forced to report the
- * same base address. The cache must detect the IPC-handle mismatch on the
+ * same base address. The cache must detect the allocation-id mismatch on the
  * second map and remap, rather than returning the first mapping.
  */
 UCS_TEST_F(test_ze_ipc_cache, stale_address_is_remapped) {

@@ -37,6 +37,8 @@ typedef struct uct_ze_ipc_md_config {
  */
 typedef struct uct_ze_ipc_key {
     ze_ipc_mem_handle_t ipc_handle; /**< IPC memory handle */
+    uint64_t            alloc_id; /**< Driver allocation id, distinguishes
+                                       allocations that reuse a VA */
     pid_t               pid; /**< Remote process ID (for cache) */
     uintptr_t           address; /**< Base address of the allocation */
     size_t              length; /**< Size of the allocation */
