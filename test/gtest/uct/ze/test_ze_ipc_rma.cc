@@ -96,10 +96,13 @@ UCS_TEST_P(test_ze_ipc_rma, put_zcopy_rejects_out_of_range_rkey)
 
     ucs_status_t status;
     {
+        /* the rkey covers the whole driver allocation, which is page-rounded
+         * and therefore larger than 'length' - go far enough past the base
+         * address to land outside it */
         scoped_log_handler slh(hide_errors_logger);
         status = uct_ep_put_zcopy(m_sender->ep(0), sendbuf.iov(), 1,
-                                  recvbuf.addr() + recvbuf.length(),
-                                  recvbuf.rkey(), NULL);
+                                  recvbuf.addr() + UCS_MBYTE, recvbuf.rkey(),
+                                  NULL);
     }
     EXPECT_EQ(UCS_ERR_INVALID_PARAM, status);
 }
