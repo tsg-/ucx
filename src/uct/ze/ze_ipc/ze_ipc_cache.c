@@ -460,8 +460,8 @@ void uct_ze_ipc_purge_cache_by_context(ze_context_handle_t ze_context)
         }
 
         cache = kh_val(&uct_ze_ipc_remote_cache.hash, khiter);
-        kh_del(ze_ipc_rem_cache, &uct_ze_ipc_remote_cache.hash, khiter);
         uct_ze_ipc_destroy_cache(cache);
+        kh_del(ze_ipc_rem_cache, &uct_ze_ipc_remote_cache.hash, khiter);
     }
     ucs_recursive_spin_unlock(&uct_ze_ipc_remote_cache.lock);
 }
